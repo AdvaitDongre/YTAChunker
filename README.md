@@ -86,14 +86,3 @@ YTAChunker/
 ## Contributing
 
 Feel free to open issues and submit pull requests for bug fixes, enhancements, or new features. Contributions are welcome!
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Acknowledgements
-
-- **OpenAI's Whisper**: For accurate transcription of audio to text.
-- **LangChain**: For powerful language model integration.
-- **Streamlit**: For easy-to-use web app creation.
-- **pytube**: For downloading YouTube videos.
