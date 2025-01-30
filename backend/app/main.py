@@ -70,7 +70,6 @@ def split_audio_by_chunks(audio_path: str, text_chunks: list[str], output_folder
 @app.post("/process-youtube")
 async def process_youtube(request: YouTubeRequest):
     youtube_url = request.youtube_url
-
     try:
         # Paths
         video_path = "temp/video.mp4"
@@ -116,8 +115,9 @@ async def process_youtube(request: YouTubeRequest):
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        response = groq_client.query_llm(request.user_message)
-        return {"response": response["response"]}
+        raw_response = groq_client.query_llm(request.user_message)["response"]
+        clean_response = groq_client.format_response(raw_response)
+        return {"response": clean_response}
     except Exception as e:
         logging.error(f"Error in chat: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))

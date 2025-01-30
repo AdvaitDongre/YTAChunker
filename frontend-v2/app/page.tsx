@@ -302,11 +302,11 @@ export default function Home() {
                                 <td className="px-6 py-4 border-t border-border">{segment.audio_path.split('/').pop().split('.')[0]}</td>
                                 <td className="px-6 py-4 border-t border-border">{segment.start_time.toFixed(2)}</td>
                                 <td className="px-6 py-4 border-t border-border">{segment.end_time.toFixed(2)}</td>
-                                <td className="px-6 py-4 border-t border-border w-[20%] break-words">{segment.text}</td>
-                                <td className="px-6 py-4 border-t border-border w-[40%] break-words">
+                                <td className="px-6 py-4 border-t border-border w-[50%]">{segment.text}</td>
+                                <td className="px-6 py-4 border-t border-border w-[50%] break-words">
                                   {segment.summary || "No summary available."}
                                 </td>
-                                <td className="px-6 py-4 border-t border-border">
+                                <td className="px-6 py-4 border-t border-border w-[1%] break-words">
   {segment.source ? (
     <a href={segment.source} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
       Source

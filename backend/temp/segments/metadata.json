@@ -1,0 +1,18 @@
+[
+    {
+        "start_time": 0.0,
+        "end_time": 6.5315,
+        "text": "10, 9, 8, 7, 6, 5,",
+        "audio_path": "/segments/chunk_1.wav",
+        "summary": "A countdown is a sequence of numbers or events that count down to a specific time or event, often used to create anticipation or tension before a significant event. This sequence is typically a countdown from a high number to zero, repeated multiple times, and is associated with situations such as countdowns to a new year, a rocket launch, or a countdown timer. Examples of countdowns include the countdown to New Year's Eve, a rocket launch, and countdown timers in video games or apps. The concept of a countdown is widely used and can be found in various contexts, as referenced in Wikipedia's \"Countdown (disambiguation)\" page.",
+        "source": "https://en.wikipedia.org/wiki/Countdown_"
+    },
+    {
+        "start_time": 6.5315,
+        "end_time": 13.063,
+        "text": "4, 3, 2, 1, 0.",
+        "audio_path": "/segments/chunk_2.wav",
+        "summary": "A countdown sequence is a series of numbers that decreases by 1 from a starting number to 0. The sequence provided in the query appears to be a partial countdown from 4 to 0, rather than a full countdown from 10 to 0. This is evident from the example given, where a countdown from 4 to 0 is 4, 3, 2, 1, 0. According to Wikipedia, a countdown is a sequence of numbers that decreases by 1 from a starting number to 0, which aligns with the given information.",
+        "source": "https://en.wikipedia.org/wiki/Countdown_"
+    }
+]

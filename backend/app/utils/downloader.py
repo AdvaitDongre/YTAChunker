@@ -2,6 +2,7 @@ import os
 import yt_dlp
 import subprocess
 import whisper
+import shutil
 
 def download_video_and_audio(url, video_output_path="temp/video.mp4", audio_output_path="temp/audio.wav"):
     """
@@ -9,6 +10,9 @@ def download_video_and_audio(url, video_output_path="temp/video.mp4", audio_outp
     converts the video to MP4 if necessary, extracts audio using FFmpeg, and saves both files.
     """
     # Ensure the output folder exists
+    output_folder = os.path.dirname(video_output_path)
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
     os.makedirs(os.path.dirname(video_output_path), exist_ok=True)
 
     # Temporary file to download the raw video

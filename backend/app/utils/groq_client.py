@@ -120,3 +120,17 @@ class GroqClient:
     def clean_summary(self, summary: str) -> str:
         cleaned_summary = re.sub(r"<think>.*?</think>", "", summary, flags=re.DOTALL).strip()
         return cleaned_summary
+    def format_response(self, response: str) -> str:
+        """
+        Cleans the response to return a simple plain-text paragraph:
+        - Removes formatting (*, **, bullet points, headers)
+        - Strips extra whitespace and newlines
+        - Removes sources and URLs
+        """
+        # Remove markdown formatting
+        response = re.sub(r"[*_#>-]", "", response)
+        # Remove excessive newlines
+        response = re.sub(r"\n+", " ", response).strip()
+        # Remove URLs
+        response = re.sub(r'https?://[^\s]+', "", response)
+        return response
