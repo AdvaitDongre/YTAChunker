@@ -117,7 +117,15 @@ async def chat(request: ChatRequest):
     try:
         raw_response = groq_client.query_llm(request.user_message)["response"]
         clean_response = groq_client.format_response(raw_response)
-        return {"response": clean_response}
+
+        # Get timestamps for the query from the transcript
+        start_time, end_time = groq_client.find_timestamps(request.user_message)
+        print(end_time)
+        return {
+            "response": clean_response,
+            "start_time": start_time,
+            "end_time": end_time
+        }
     except Exception as e:
         logging.error(f"Error in chat: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))

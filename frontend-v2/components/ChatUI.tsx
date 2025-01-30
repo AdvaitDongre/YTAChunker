@@ -12,7 +12,7 @@ interface ChatUIProps {
 }
 
 export function ChatUI({ onClose, darkMode }: ChatUIProps) {
-  const [chatMessages, setChatMessages] = useState<{ role: string; content: string }[]>([])
+  const [chatMessages, setChatMessages] = useState<{ role: string; content: string; start_time?: number; end_time?: number }[]>([])
   const [chatInput, setChatInput] = useState("")
   const [chatLoading, setChatLoading] = useState(false)
 
@@ -29,9 +29,15 @@ export function ChatUI({ onClose, darkMode }: ChatUIProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_message: chatInput }),
       })
-
       const data = await response.json()
-      setChatMessages((prev) => [...prev, { role: "assistant", content: data.response }])
+      const assistantMessage = {
+        role: "assistant",
+        content: data.response,
+        start_time: data.start_time,
+        end_time: data.end_time
+      }
+
+      setChatMessages((prev) => [...prev, assistantMessage])
     } catch (error) {
       setChatMessages((prev) => [...prev, { role: "assistant", content: "Error fetching response." }])
     } finally {
@@ -60,6 +66,11 @@ export function ChatUI({ onClose, darkMode }: ChatUIProps) {
               >
                 {msg.content}
               </span>
+              {msg.role === "assistant" && msg.start_time !== undefined && msg.end_time !== undefined && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Timestamp: {msg.start_time.toFixed(2)}s → {msg.end_time.toFixed(2)}s
+                </p>
+                )}
             </div>
           ))}
         </ScrollArea>

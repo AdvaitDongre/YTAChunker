@@ -1,18 +1,90 @@
 [
     {
         "start_time": 0.0,
-        "end_time": 6.5315,
-        "text": "10, 9, 8, 7, 6, 5,",
+        "end_time": 9.077,
+        "text": "A recursive function is a function that calls itself inside of its own definition. It's like having a dream inside of a dream.",
         "audio_path": "/segments/chunk_1.wav",
-        "summary": "A countdown is a sequence of numbers or events that count down to a specific time or event, often used to create anticipation or tension before a significant event. This sequence is typically a countdown from a high number to zero, repeated multiple times, and is associated with situations such as countdowns to a new year, a rocket launch, or a countdown timer. Examples of countdowns include the countdown to New Year's Eve, a rocket launch, and countdown timers in video games or apps. The concept of a countdown is widely used and can be found in various contexts, as referenced in Wikipedia's \"Countdown (disambiguation)\" page.",
-        "source": "https://en.wikipedia.org/wiki/Countdown_"
+        "summary": "A recursive function is a function that calls itself inside its own definition, creating a loop-like effect that repeats until a stopping point is reached. This type of function is used to solve problems with a recursive structure and can be more elegant and easier to understand than iterative solutions. However, they can also be less efficient due to the overhead of function calls. An example of a recursive function is the factorial function, which calls itself recursively to calculate the factorial of a given number. The function definition for factorial is as follows: if the input number is 0, it returns 1; otherwise, it returns the product of the input number and the factorial of the number minus one.",
+        "source": "https://en.wikipedia.org/wiki/Recursion"
     },
     {
-        "start_time": 6.5315,
-        "end_time": 13.063,
-        "text": "4, 3, 2, 1, 0.",
+        "start_time": 9.077,
+        "end_time": 18.154,
+        "text": "When you have a recursive function that calls itself without anything to stop it, you have created an infinite loop. The first function gets pushed onto the call stack, the next one on top of it, then another one on top of that, and so on forever.",
         "audio_path": "/segments/chunk_2.wav",
-        "summary": "A countdown sequence is a series of numbers that decreases by 1 from a starting number to 0. The sequence provided in the query appears to be a partial countdown from 4 to 0, rather than a full countdown from 10 to 0. This is evident from the example given, where a countdown from 4 to 0 is 4, 3, 2, 1, 0. According to Wikipedia, a countdown is a sequence of numbers that decreases by 1 from a starting number to 0, which aligns with the given information.",
-        "source": "https://en.wikipedia.org/wiki/Countdown_"
+        "summary": "Infinite recursion is a type of stack overflow error that occurs when a recursive function calls itself without a proper stopping condition, leading to an infinite loop. This results in the function being called repeatedly, causing the call stack to grow indefinitely and ultimately causing the program to crash or freeze. A stopping condition is essential in recursive functions to prevent infinite recursion, which can be illustrated by an example of a function that calls itself without any stopping condition. This type of error is described in sources such as Wikipedia, specifically in the article on recursion, which highlights the importance of a stopping condition in recursive functions.",
+        "source": "https://en.wikipedia.org/wiki/Recursion#Infinite_recursion"
+    },
+    {
+        "start_time": 18.154,
+        "end_time": 27.231,
+        "text": "Or until your runtime throws a stack overflow error, or the computer just runs out of memory. So recursion is just another way to create a loop.",
+        "audio_path": "/segments/chunk_3.wav",
+        "summary": "Recursive functions are a way to create a loop using function calls, different from loops which use control flow statements. A key aspect of recursive functions is the need for a stopping point, also known as a base case, to prevent infinite recursion and stack overflow errors. If a recursive function calls itself too many times, it can exceed the maximum call stack size, causing a stack overflow error. Recursion can consume more memory than iteration because each recursive call creates a new stack frame. A well-designed recursive function, such as one that calculates the factorial of a number, has a clear base case to stop the recursion. For instance, the factorial function in Python has a base case of `n == 0`, which stops the recursion. This concept is essential to understand in programming, and it can be found in various resources, including W3Schools, a reputable online platform that provides tutorials and reference materials for web development.",
+        "source": "https://www.w3schools.com/python/python_recursion.asp"
+    },
+    {
+        "start_time": 27.231,
+        "end_time": 36.308,
+        "text": "But infinite loops aren't very useful in practice. That's why recursive functions have some sort of stopping point. Like some conditional logic that tells the function to stop calling itself when a condition has been met.",
+        "audio_path": "/segments/chunk_4.wav",
+        "summary": "Recursive functions require a stopping point to prevent infinite loops, which is often achieved through conditional logic such as a base case or termination condition. A base case is a condition that stops the recursive function from calling itself further, while a termination condition is a point at which the recursive function stops executing. Conditional logic, such as if-else statements, is used to implement the base case or termination condition. For instance, in a factorial function, the base case could be when the input 'n' equals 0, at which point the function returns 1 and stops calling itself further. This is demonstrated in the example of a factorial function in Python, where the base case is implemented as 'if n == 0: return 1'.",
+        "source": "https://www.geeksforgeeks.org/recursive-functions-in-python/"
+    },
+    {
+        "start_time": 36.308,
+        "end_time": 45.385,
+        "text": "On an interview, you might be asked to implement some code that finds a specific index in the Fibonacci sequence. You'll notice a given index of the sequence is just the sum of the two previous values.",
+        "audio_path": "/segments/chunk_5.wav",
+        "summary": "The Fibonacci sequence is a series of numbers in which each number is the sum of the two preceding ones, usually starting with 0 and 1. The recursive formula for the Fibonacci sequence is F(n) = F(n-1) + F(n-2), where F(n) is the n-th Fibonacci number. To find the Fibonacci value for each index until we reach the target index of 2023, we can use an iterative approach, which is more efficient than the recursive approach due to repeated computations. This approach uses a dynamic programming technique to store and reuse previously computed values. The algorithm initializes the first two Fibonacci numbers, a and b, to 0 and 1, respectively, and then iterates from i = 2 to 2023, computing the i-th Fibonacci number as a + b, and updating a and b to b and a + b, respectively. The Fibonacci value for index 2023 can be computed using the following Python code: def fibonacci(n): if n <= 0: return \"Input should be a positive integer.\" elif n == 1: return 0 elif n == 2: return 1 else: a, b = 0, 1 for _ in range(2, n): a, b = b, a + b return b.",
+        "source": "https://en.wikipedia.org/wiki/Fibonacci_number"
+    },
+    {
+        "start_time": 45.385,
+        "end_time": 54.461999999999996,
+        "text": "So how do we find index number 2023? Your first thought might be to implement an iterative solution with a for loop. Compute the Fibonacci value for each index until we get to the target index of 2023.",
+        "audio_path": "/segments/chunk_6.wav",
+        "summary": "To find the Fibonacci value at index 2023, we can use an iterative approach due to its efficiency for large target indices. The algorithm initializes an array of size 2024 with the first two Fibonacci numbers (0 and 1) and then iterates from index 2 to 2023, calculating each Fibonacci value by summing the values at the previous two indices. The calculated values are stored in the array, and the Fibonacci value at index 2023 is stored at index 2023. A sample Python code snippet illustrates this algorithm, which has a time complexity of O(n), where n is the target index.",
+        "source": "https://en.wikipedia.org/wiki/Fibonacci_number"
+    },
+    {
+        "start_time": 54.461999999999996,
+        "end_time": 63.538999999999994,
+        "text": "But then you're asked to implement a recursive solution. We can do that by writing a function that starts with the index and then works its way backwards until it gets to a base case of being less than or equal to one.",
+        "audio_path": "/segments/chunk_7.wav",
+        "summary": "A recursive solution for the Fibonacci sequence can be implemented by writing a function that starts with the index and works its way backwards until it reaches a base case. The base case for Fibonacci is when the index is less than or equal to 1. This function calls itself with decreasing values of `n` until it reaches the base case, at which point it starts returning values back up the call stack. Recursion is a programming technique where a function calls itself repeatedly until it reaches a base case, which in this case is a condition that stops the recursion. The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones. For example, the Fibonacci function can be used to calculate the fifth number in the sequence, which is 5. This implementation is based on the concept of recursion, as described in the Wikipedia article on the topic.",
+        "source": "https://en.wikipedia.org/wiki/Recursion"
+    },
+    {
+        "start_time": 63.538999999999994,
+        "end_time": 72.616,
+        "text": "Notice how we're calling the same function inside the function body, and we're doing it twice. There's a big problem here though. It will traverse down the entire sequence for every single index.",
+        "audio_path": "/segments/chunk_8.wav",
+        "summary": "The given problem appears to be related to dynamic programming or recursion, where a function calls itself repeatedly, potentially leading to an exponential time complexity due to repeated calculations. Dynamic programming is a method for solving complex problems by breaking them down into simpler subproblems, solving each subproblem only once, and storing the solutions to subproblems to avoid redundant computation. This technique is particularly useful for problems like the Fibonacci sequence, where the solution can be calculated as the sum of two previous solutions. To solve such problems efficiently, dynamic programming can be used to store the results of subproblems and avoid repeated calculations. For example, the Fibonacci sequence can be solved using a dynamic programming approach, where the function stores the results of previously calculated subproblems in a memoization dictionary. This approach significantly reduces the time complexity of the solution, making it more efficient and scalable.",
+        "source": "https://en.wikipedia.org/wiki/Dynamic_programming"
+    },
+    {
+        "start_time": 72.616,
+        "end_time": 81.693,
+        "text": "That's O to the N squared time complexity, which is not good at all. In the next video, I'll explain how to improve this with memoization.",
+        "audio_path": "/segments/chunk_9.wav",
+        "summary": "The given recursive solution is experiencing O(n^2) time complexity due to repeated calculations for every index in the sequence. This inefficiency can be addressed by applying memoization, a technique that caches the results of expensive function calls to avoid redundant calculations. Memoization significantly improves the performance of recursive solutions by storing and reusing previously calculated values, reducing time complexity. This technique is particularly useful in scenarios where calculations are repeated, such as in the Fibonacci sequence, where without memoization, the solution would have exponential time complexity.",
+        "source": "https://en.wikipedia.org/wiki/Memoization"
+    },
+    {
+        "start_time": 81.693,
+        "end_time": 90.77,
+        "text": "Reclusive functions are not the right choice in every situation, but they are very good for tree and graph traversals.",
+        "audio_path": "/segments/chunk_10.wav",
+        "summary": "Reclusive functions, also known as recursive functions, are particularly well-suited for tree and graph traversals due to their natural stopping point, which prevents infinite loops. They excel in traversing complex data structures, making them ideal for tree traversals such as pre-order, in-order, and post-order traversal, as well as graph traversals including depth-first search (DFS) and breadth-first search (BFS). This is demonstrated through examples, such as a tree traversal function that recursively visits each node in the tree, printing its value and then traversing its left and right child nodes. This concept is supported by reliable online resources, including GeeksforGeeks.",
+        "source": "https://www.geeksforgeeks.org/tree-traversal/>"
+    },
+    {
+        "start_time": 90.77,
+        "end_time": 99.847,
+        "text": "This has been Recursion in 100 seconds. Thanks for watching, and I will see you in the next one.",
+        "audio_path": "/segments/chunk_11.wav",
+        "summary": "Recursion is a programming technique where a function calls itself repeatedly until it reaches a base case, allowing it to solve problems with a recursive structure. This method can be used to compute values such as the Fibonacci sequence, where each number is the sum of the two preceding ones, as demonstrated in the example of computing the Fibonacci value for index 2023. However, infinite loops can occur if the base case is not properly defined. The Fibonacci sequence is a classic example of recursion, and it is often used to illustrate this concept. According to Wikipedia, recursion is a fundamental concept in programming and computer science.",
+        "source": "https://en.wikipedia.org/wiki/Recursion"
     }
 ]

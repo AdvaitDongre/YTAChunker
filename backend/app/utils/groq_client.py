@@ -16,7 +16,15 @@ class GroqClient:
         self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
         self.index = faiss.IndexFlatL2(384)
         self.documents = []
+        self.transcript_data = self.load_transcript()
 
+    def load_transcript(self) -> dict:
+        """ Load transcript JSON file if available. """
+        transcript_path = os.path.join(self.temp_dir, "transcript_original.json")
+        if os.path.exists(transcript_path):
+            with open(transcript_path, "r", encoding="utf-8") as file:
+                return json.load(file)
+        return {"segments": []}
     def add_documents(self, docs: List[str]):
         embeddings = self.embedding_model.encode(docs)
         self.index.add(embeddings)
@@ -134,3 +142,28 @@ class GroqClient:
         # Remove URLs
         response = re.sub(r'https?://[^\s]+', "", response)
         return response
+    
+    def find_timestamps(self, user_message: str) -> tuple[float, float]:
+        """
+        Finds the timestamps (start and end times) of the transcript segment that best matches the user's query.
+        """
+        if not self.transcript_data or "segments" not in self.transcript_data:
+            return 0.0, 0.0  # Default values if no transcript is available
+
+        best_match = None
+        highest_overlap = 0
+
+        for segment in self.transcript_data["segments"]:
+            segment_text = segment["text"].lower()
+            query_text = user_message.lower()
+
+            # Simple substring match to check if query is part of the segment
+            overlap = len(set(query_text.split()) & set(segment_text.split()))
+
+            if overlap > highest_overlap:
+                highest_overlap = overlap
+                best_match = segment
+
+        if best_match:
+            return best_match["start"], best_match["end"]
+        return 0.0, 0.0  # Default if no match found
