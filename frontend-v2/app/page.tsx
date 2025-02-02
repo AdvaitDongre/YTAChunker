@@ -22,6 +22,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Elephant, Lion, Penguin } from "@/components/Animals"
 import { ChatUI } from "@/components/ChatUI"
 
+function getYouTubeVideoId(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+}
+
 export default function Home() {
   const [youtubeUrl, setYoutubeUrl] = useState("")
   const [result, setResult] = useState<any>(null)
@@ -279,19 +285,38 @@ export default function Home() {
                           <TooltipContent>Share results</TooltipContent>
                         </Tooltip>
                       </div>
+
+                      <div className="mb-6">
+                        {youtubeUrl && getYouTubeVideoId(youtubeUrl) ? (
+                          <div className="relative pt-[56.25%]"> {/* 16:9 aspect ratio */}
+                            <iframe
+                              className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                              src={`https://www.youtube.com/embed/${getYouTubeVideoId(youtubeUrl)}`}
+                              title="YouTube video player"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        ) : (
+                          <div className="text-center p-4 bg-muted rounded-lg">
+                            Invalid YouTube URL
+                          </div>
+                        )}
+                      </div>
+
                       <div className="overflow-x-auto">
-                      <table className="w-full border-collapse rounded-lg overflow-hidden" style={{ tableLayout: "fixed" }}>
-                        <thead>
-  <tr className="bg-muted">
-    <th className="px-4 py-3 text-left w-[10%]">Name</th>
-    <th className="px-4 py-3 text-left w-[10%]">Start Time</th>
-    <th className="px-4 py-3 text-left w-[10%]">End Time</th>
-    <th className="px-4 py-3 text-left w-[10%]">Text</th>
-    <th className="px-6 py-3 text-left w-[35%]">Summary</th> {/* More width */}
-    <th className="px-4 py-3 text-left w-[10%]">Source</th>
-    <th className="px-4 py-3 text-left w-[10%]">Actions</th>
-  </tr>
-</thead>
+                        <table className="w-full border-collapse rounded-lg overflow-hidden" style={{ tableLayout: "fixed" }}>
+                          <thead>
+                            <tr className="bg-muted">
+                              <th className="px-4 py-3 text-left w-[10%]">Name</th>
+                              <th className="px-4 py-3 text-left w-[10%]">Start Time</th>
+                              <th className="px-4 py-3 text-left w-[10%]">End Time</th>
+                              <th className="px-4 py-3 text-left w-[10%]">Text</th>
+                              <th className="px-6 py-3 text-left w-[35%]">Summary</th> {/* More width */}
+                              <th className="px-4 py-3 text-left w-[10%]">Source</th>
+                              <th className="px-4 py-3 text-left w-[10%]">Actions</th>
+                            </tr>
+                          </thead>
 
                           <tbody>
                             {result.segments.map((segment: any, index: number) => (
@@ -307,14 +332,14 @@ export default function Home() {
                                   {segment.summary || "No summary available."}
                                 </td>
                                 <td className="px-6 py-4 border-t border-border w-[1%] break-words">
-  {segment.source ? (
-    <a href={segment.source} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-      Source
-    </a>
-  ) : (
-    "No source found."
-  )}
-</td>
+                                  {segment.source ? (
+                                    <a href={segment.source} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                                      Source
+                                    </a>
+                                  ) : (
+                                    "No source found."
+                                  )}
+                                </td>
 
                                 <td className="px-6 py-4 border-t border-border">
                                   <Tooltip>
