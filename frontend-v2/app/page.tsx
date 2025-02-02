@@ -21,6 +21,14 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Elephant, Lion, Penguin } from "@/components/Animals"
 import { ChatUI } from "@/components/ChatUI"
+import styled from 'styled-components';
+import { toast } from "react-hot-toast";
+
+// Add this type definition at the top of the file
+type HistoryItem = {
+  url: string;
+  timestamp: string;
+};
 
 function getYouTubeVideoId(url: string) {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -28,17 +36,332 @@ function getYouTubeVideoId(url: string) {
   return match && match[2].length === 11 ? match[2] : null;
 }
 
+// Add the styled switch component
+const StyledWrapper = styled.div<{ isDarkMode: boolean }>`
+  .checkbox-wrapper-8 .tgl {
+    display: none;
+  }
+
+  .checkbox-wrapper-8 .tgl,
+  .checkbox-wrapper-8 .tgl:after,
+  .checkbox-wrapper-8 .tgl:before,
+  .checkbox-wrapper-8 .tgl *,
+  .checkbox-wrapper-8 .tgl *:after,
+  .checkbox-wrapper-8 .tgl *:before,
+  .checkbox-wrapper-8 .tgl + .tgl-btn {
+    box-sizing: border-box;
+  }
+
+  .checkbox-wrapper-8 .tgl::-moz-selection,
+  .checkbox-wrapper-8 .tgl:after::-moz-selection,
+  .checkbox-wrapper-8 .tgl:before::-moz-selection,
+  .checkbox-wrapper-8 .tgl *::-moz-selection,
+  .checkbox-wrapper-8 .tgl *:after::-moz-selection,
+  .checkbox-wrapper-8 .tgl *:before::-moz-selection,
+  .checkbox-wrapper-8 .tgl + .tgl-btn::-moz-selection,
+  .checkbox-wrapper-8 .tgl::selection,
+  .checkbox-wrapper-8 .tgl:after::selection,
+  .checkbox-wrapper-8 .tgl:before::selection,
+  .checkbox-wrapper-8 .tgl *::selection,
+  .checkbox-wrapper-8 .tgl *:after::selection,
+  .checkbox-wrapper-8 .tgl *:before::selection,
+  .checkbox-wrapper-8 .tgl + .tgl-btn::selection {
+    background: none;
+  }
+
+  .checkbox-wrapper-8 .tgl + .tgl-btn {
+    outline: 0;
+    display: block;
+    width: 7em;
+    height: 2em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-wrapper-8 .tgl + .tgl-btn:after,
+  .checkbox-wrapper-8 .tgl + .tgl-btn:before {
+    position: relative;
+    display: block;
+    content: "";
+    width: 50%;
+    height: 100%;
+  }
+
+  .checkbox-wrapper-8 .tgl + .tgl-btn:after {
+    left: 0;
+  }
+
+  .checkbox-wrapper-8 .tgl + .tgl-btn:before {
+    display: none;
+  }
+
+  .checkbox-wrapper-8 .tgl:checked + .tgl-btn:after {
+    left: 50%;
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn {
+    overflow: hidden;
+    transform: skew(-10deg);
+    backface-visibility: hidden;
+    transition: all 0.2s ease;
+    font-family: sans-serif;
+    background: ${props => props.isDarkMode ? '#374151' : '#888'};
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:after,
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:before {
+    transform: skew(10deg);
+    display: inline-block;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    line-height: 2em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:after {
+    left: 100%;
+    content: attr(data-tg-on);
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:before {
+    left: 0;
+    content: attr(data-tg-off);
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:active {
+    background: ${props => props.isDarkMode ? '#4B5563' : '#888'};
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed + .tgl-btn:active:before {
+    left: -10%;
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed:checked + .tgl-btn {
+    background: ${props => props.isDarkMode ? '#60A5FA' : '#86d993'};
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed:checked + .tgl-btn:before {
+    left: -100%;
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed:checked + .tgl-btn:after {
+    left: 0;
+  }
+
+  .checkbox-wrapper-8 .tgl-skewed:checked + .tgl-btn:active:after {
+    left: 10%;
+  }
+`;
+
+const StyledButtonWrapper = styled.div<{ isDarkMode: boolean }>`
+  .cta {
+    position: relative;
+    margin: auto;
+    padding: 12px 18px;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .cta:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 50px;
+    background: ${props => props.isDarkMode ? '#60A5FA' : '#b1dae7'};
+    width: 45px;
+    height: 45px;
+    transition: all 0.3s ease;
+  }
+
+  .cta span {
+    position: relative;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: ${props => props.isDarkMode ? '#fff' : '#234567'};
+  }
+
+  .cta svg {
+    position: relative;
+    top: 0;
+    margin-left: 10px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: ${props => props.isDarkMode ? '#fff' : '#234567'};
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+
+  .cta:hover:before {
+    width: 100%;
+    background: ${props => props.isDarkMode ? '#60A5FA' : '#b1dae7'};
+  }
+
+  .cta:hover svg {
+    transform: translateX(0);
+  }
+
+  .cta:active {
+    transform: scale(0.95);
+  }
+`;
+
+const StyledInputWrapper = styled.div<{ isDarkMode: boolean }>`
+  .brutalist-container {
+    position: relative;
+    width: 100%;
+    font-family: monospace;
+  }
+
+  .brutalist-input {
+    width: 100%;
+    padding: 15px;
+    padding-right: 45px; // Space for YouTube icon
+    font-size: 16px;
+    font-weight: bold;
+    color: ${props => props.isDarkMode ? '#fff' : '#000'};
+    background-color: ${props => props.isDarkMode ? '#374151' : '#fff'};
+    border: 4px solid ${props => props.isDarkMode ? '#fff' : '#000'};
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 5px 5px 0 ${props => props.isDarkMode ? '#fff' : '#000'}, 
+                10px 10px 0 ${props => props.isDarkMode ? '#60A5FA' : '#4a90e2'};
+  }
+
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+
+  .brutalist-input:focus {
+    animation: focus-pulse 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+              glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  }
+
+  .brutalist-input:focus::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: ${props => props.isDarkMode ? '#374151' : 'white'};
+    z-index: -1;
+  }
+
+  .brutalist-label {
+    position: absolute;
+    left: -3px;
+    top: -35px;
+    font-size: 14px;
+    font-weight: bold;
+    color: ${props => props.isDarkMode ? '#000' : '#fff'};
+    background-color: ${props => props.isDarkMode ? '#fff' : '#000'};
+    padding: 5px 10px;
+    transform: rotate(-1deg);
+    z-index: 1;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .brutalist-input:focus + .brutalist-label {
+    transform: rotate(0deg) scale(1.05);
+    background-color: ${props => props.isDarkMode ? '#60A5FA' : '#4a90e2'};
+  }
+
+  .brutalist-input::placeholder {
+    color: ${props => props.isDarkMode ? '#9CA3AF' : '#888'};
+    transition: color 0.3s ease;
+  }
+
+  .brutalist-input:focus::placeholder {
+    color: transparent;
+  }
+
+  @keyframes focus-pulse {
+    0%, 100% {
+      border-color: ${props => props.isDarkMode ? '#fff' : '#000'};
+    }
+    50% {
+      border-color: ${props => props.isDarkMode ? '#60A5FA' : '#4a90e2'};
+    }
+  }
+`;
+
+const StyledSubmitWrapper = styled.div<{ isDarkMode: boolean }>`
+  button {
+    background-color: ${props => props.isDarkMode ? '#374151' : 'white'};
+    color: ${props => props.isDarkMode ? 'white' : 'black'};
+    border-radius: 10em;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 0.7em 2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid ${props => props.isDarkMode ? 'white' : 'black'};
+    box-shadow: 0 0 0 0 ${props => props.isDarkMode ? 'white' : 'black'};
+  }
+
+  button:hover {
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 2px 5px 0 0 ${props => props.isDarkMode ? 'white' : 'black'};
+  }
+
+  button:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 ${props => props.isDarkMode ? 'white' : 'black'};
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+`;
+
+// Add this style to handle the emoji colors based on theme
+const StyledSwitchWrapper = styled.div<{ isDarkMode: boolean }>`
+  .switch-emoji::after {
+    color: ${props => props.isDarkMode ? '#374151' : '#000000'};
+  }
+  
+  input:checked + .switch-emoji::after {
+    color: ${props => props.isDarkMode ? '#374151' : '#000000'};
+  }
+`;
+
 export default function Home() {
   const [youtubeUrl, setYoutubeUrl] = useState("")
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
-  const [history, setHistory] = useState<string[]>([])
+  const [history, setHistory] = useState<HistoryItem[]>([])
   const [showHistory, setShowHistory] = useState(false)
   const [autoTranscribe, setAutoTranscribe] = useState(false)
   const [language, setLanguage] = useState("en")
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const [showChat, setShowChat] = useState(false)
+  const [isCancelled, setIsCancelled] = useState(false)
 
   useEffect(() => {
     const savedMode = localStorage.getItem("darkMode")
@@ -56,56 +379,93 @@ export default function Home() {
     localStorage.setItem("darkMode", JSON.stringify(darkMode))
   }, [darkMode])
 
+  useEffect(() => {
+    // Clear chat history on page refresh
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('chatHistory');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!youtubeUrl) return
     setLoading(true)
     setResult(null)
+    setIsCancelled(false)
+
+    // Create an AbortController
+    const controller = new AbortController();
+    const { signal } = controller;
 
     try {
-      const response = await fetch("http://localhost:8000/process-youtube", {
+      // Store the controller in a ref or state if you need to access it elsewhere
+      const processResponse = await fetch("http://localhost:8000/process-youtube", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ youtube_url: youtubeUrl, auto_transcribe: !autoTranscribe, language }),
-      })
+        body: JSON.stringify({ 
+          youtube_url: youtubeUrl, 
+          auto_transcribe: !autoTranscribe, 
+          language 
+        }),
+        signal, // Add the abort signal to the fetch request
+      });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`)
+      if (isCancelled) {
+        controller.abort();
+        setLoading(false);
+        return;
       }
 
-      const data = await response.json()
-      setResult(data)
-      updateHistory(youtubeUrl)
+      if (!processResponse.ok) {
+        throw new Error(`Error: ${processResponse.statusText}`);
+      }
+
+      const data = await processResponse.json();
+      if (!isCancelled) {
+        setResult(data);
+        updateHistory(youtubeUrl);
+      }
     } catch (error: any) {
-      setResult({ error: error.message })
+      if (error.name === 'AbortError') {
+        console.log('Fetch aborted');
+      } else if (!isCancelled) {
+        setResult({ error: error.message });
+      }
     } finally {
-      setLoading(false)
+      if (!isCancelled) {
+        setLoading(false);
+      }
     }
-  }
+  };
 
   const updateHistory = (url: string) => {
-    const updatedHistory = [url, ...history.filter((item) => item !== url)].slice(0, 5)
-    setHistory(updatedHistory)
-    localStorage.setItem("urlHistory", JSON.stringify(updatedHistory))
-  }
+    const newHistoryItem: HistoryItem = {
+      url,
+      timestamp: new Date().toLocaleString(),
+    };
+    
+    const updatedHistory = [newHistoryItem, ...history].slice(0, 10); // Keep only last 10 items
+    setHistory(updatedHistory);
+    localStorage.setItem("urlHistory", JSON.stringify(updatedHistory));
+  };
+
+  const handleHistoryClick = (url: string) => {
+    setYoutubeUrl(url);
+    setShowHistory(false);
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem("urlHistory");
+  };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode)
-  }
-
-  const clearHistory = () => {
-    setHistory([])
-    localStorage.removeItem("urlHistory")
-  }
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      // Handle file upload logic here
-      console.log("File uploaded:", file.name)
-    }
   }
 
   const shareResults = () => {
@@ -116,6 +476,59 @@ export default function Home() {
       })
     }
   }
+
+  const handleCancel = async () => {
+    try {
+      // First, set the cancelled state and remove loading state immediately
+      setIsCancelled(true);
+      setLoading(false);
+      setResult(null);
+
+      // Then send the cancel request to the backend
+      await fetch("http://localhost:8000/cancel-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+    } catch (error) {
+      console.error("Error cancelling process:", error);
+    }
+  };
+
+  const processVideo = async (url: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/process-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        
+        // Handle storage limit exceeded error
+        if (response.status === 507) {
+          toast.error('Processing terminated: Storage limit exceeded. Please try again later.');
+          return;
+        }
+
+        throw new Error(errorData.error || 'Failed to process video');
+      }
+
+      // ... rest of your existing success handling code ...
+
+    } catch (error) {
+      console.error('Error processing video:', error);
+      toast.error(error.message || 'Failed to process video');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <TooltipProvider>
@@ -160,67 +573,64 @@ export default function Home() {
             <div className="p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="relative">
-                  <Input
-                    type="url"
-                    placeholder="Enter YouTube URL"
-                    value={youtubeUrl}
-                    onChange={(e) => setYoutubeUrl(e.target.value)}
-                    required
-                    className="pr-12"
-                  />
+                  <StyledInputWrapper isDarkMode={darkMode}>
+                    <div className="brutalist-container">
+                      <input
+                        type="url"
+                        placeholder="ENTER YOUTUBE URL"
+                        value={youtubeUrl}
+                        onChange={(e) => setYoutubeUrl(e.target.value)}
+                        onFocus={() => setShowHistory(true)}
+                        required
+                        className="brutalist-input smooth-type"
+                      />
+                      <label className="brutalist-label">YOUTUBE URL</label>
+                    </div>
+                  </StyledInputWrapper>
                   <Youtube
-                    className={`absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground animate-pulse`}
+                    className={`absolute right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground animate-pulse`}
                   />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="auto-transcribe"
-                    checked={!autoTranscribe}
-                    onCheckedChange={(checked) => setAutoTranscribe(!checked)}
-                  />
-                  <Label htmlFor="auto-transcribe">Manual Transcribe</Label>
+                <div className="flex items-center space-x-4 bg-secondary/50 p-3 rounded-lg h-12">
+                  <StyledWrapper isDarkMode={darkMode}>
+                    <div className="checkbox-wrapper-8">
+                      <input 
+                        type="checkbox" 
+                        id="manual-transcribe" 
+                        className="tgl tgl-skewed" 
+                        checked={!autoTranscribe}
+                        onChange={(e) => setAutoTranscribe(!e.target.checked)}
+                      />
+                      <label 
+                        htmlFor="manual-transcribe" 
+                        data-tg-on="MANUAL" 
+                        data-tg-off="AUTO" 
+                        className="tgl-btn" 
+                      />
+                    </div>
+                  </StyledWrapper>
                 </div>
                 {!autoTranscribe && (
                   <Select value={language} onValueChange={setLanguage}>
-                    <SelectTrigger>
+                    <SelectTrigger className={`h-12 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'}`}>
                       <SelectValue placeholder="Select Language" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">English</SelectItem>
-                      <SelectItem value="es">Spanish</SelectItem>
-                      <SelectItem value="fr">French</SelectItem>
-                      {/* Add more languages as needed */}
+                    <SelectContent className={darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'}>
+                      <SelectItem value="en" className={`${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>English</SelectItem>
+                      <SelectItem value="es" className={`${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>Spanish</SelectItem>
+                      <SelectItem value="fr" className={`${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>French</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
-                <div className="flex space-x-4">
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="flex-grow animate-shimmer hover:animate-pulse transition-all duration-300 bg-black text-white"
-                  >
-                    {loading ? "Processing..." : "Submit"}
-                  </Button>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="animate-pulse hover:animate-bounce transition-all duration-300"
-                      >
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={handleFileUpload}
-                          accept="video/*"
-                          className="hidden"
-                        />
-                        <Upload className="w-5 h-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Upload local video</TooltipContent>
-                  </Tooltip>
+                <div className="flex justify-start pr-[44px]">
+                  <StyledSubmitWrapper isDarkMode={darkMode}>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {loading ? "Processing..." : "Submit"}
+                    </button>
+                  </StyledSubmitWrapper>
                 </div>
               </form>
 
@@ -239,25 +649,17 @@ export default function Home() {
                 </Button>
                 {showHistory && (
                   <div className="mt-2 space-y-2">
-                    {history.map((url, index) => (
+                    {history.map((item, index) => (
                       <div key={index} className="flex items-center justify-between group">
                         <button
-                          onClick={() => setYoutubeUrl(url)}
+                          onClick={() => handleHistoryClick(item.url)}
                           className="text-blue-500 hover:underline truncate max-w-xs group-hover:animate-pulse"
                         >
-                          {url}
+                          {item.url}
                         </button>
-                        <Button
-                          variant="link"
-                          size="icon"
-                          onClick={() => {
-                            const updatedHistory = history.filter((item) => item !== url)
-                            setHistory(updatedHistory)
-                            localStorage.setItem("urlHistory", JSON.stringify(updatedHistory))
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4 group-hover:animate-shake" />
-                        </Button>
+                        <span className="text-sm text-muted-foreground group-hover:text-foreground">
+                          {item.timestamp}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -374,13 +776,20 @@ export default function Home() {
         </footer>
 
         {loading && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-background rounded-lg p-8 flex flex-col items-center">
-              <div className="loader ease-linear rounded-full border-8 border-t-8 border-muted h-24 w-24 mb-4 animate-spin"></div>
-              <h2 className="text-center text-xl font-semibold">Processing</h2>
-              <p className="w-64 text-center text-muted-foreground">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
+            <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-lg p-8 flex flex-col items-center border border-slate-700 shadow-xl">
+              <div className="loader ease-linear rounded-full border-8 border-t-8 border-primary h-24 w-24 mb-4 animate-spin"></div>
+              <h2 className="text-center text-xl font-semibold text-white mb-2">Processing</h2>
+              <p className="w-64 text-center text-slate-300 mb-4">
                 This may take a few seconds, please don't close this page.
               </p>
+              <Button 
+                variant="destructive" 
+                onClick={handleCancel}
+                className="mt-4 animate-pulse hover:animate-none bg-red-600 hover:bg-red-700"
+              >
+                Cancel Processing
+              </Button>
             </div>
           </div>
         )}

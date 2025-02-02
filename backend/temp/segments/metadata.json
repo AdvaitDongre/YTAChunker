@@ -1,18 +1,10 @@
 [
     {
         "start_time": 0.0,
-        "end_time": 6.5315,
-        "text": "10, 9, 8, 7, 6, 5, 4, 3, 2,",
+        "end_time": 13.05,
+        "text": "10 9 8 7 6 5 4 3 2 1 0",
         "audio_path": "/segments/chunk_1.wav",
-        "summary": "The given sequence is an example of a countdown, a sequence of numbers that decrease by one from a starting value to a final value. The starting value is 10, and the final value is 0. This sequence is repeated multiple times in the provided context. A classic example of a countdown is the sequence 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0. This information can be found on Wikipedia under the topic of \"Countdown (sequence)\".",
-        "source": "https://en.wikipedia.org/wiki/Countdown_"
-    },
-    {
-        "start_time": 6.5315,
-        "end_time": 13.063,
-        "text": "1, 0.",
-        "audio_path": "/segments/chunk_2.wav",
-        "summary": "The numbers 1 and 0 represent the binary representation of the decimal number 1. In binary, each digit, known as a bit, can be either 0 or 1, and this system has a base of 2. The decimal number 1 is represented as 1 in binary, while the decimal number 2 is represented as 10, which translates to 1*2^1 + 0*2^0 = 2. This binary representation is based on the concept of positional notation, where each digit's value depends on its position in the number. This information can be found on Wikipedia under the topic of binary numbers.",
-        "source": "https://en.wikipedia.org/wiki/Binary_number"
+        "summary": "The provided pattern is a countdown sequence commonly used to count down from 10 to 0, often seen in various contexts such as events, timers, and numerical sequences in mathematics. This sequence starts at 10 and ends at 0, with each number decreasing by 1 from the previous number, making it a simple arithmetic progression with a common difference of -1. The sequence is a basic example of an arithmetic progression, as noted in the source Wikipedia. An example of this sequence is 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0.",
+        "source": "https://en.wikipedia.org/wiki/Arithmetic_progression>"
     }
 ]
