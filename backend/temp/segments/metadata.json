@@ -4,7 +4,7 @@
         "end_time": 13.05,
         "text": "10 9 8 7 6 5 4 3 2 1 0",
         "audio_path": "/segments/chunk_1.wav",
-        "summary": "A countdown sequence is a pattern typically used to signal the start of a countdown or a timer, commonly seen in fireworks displays, event countdowns, or on TV shows. A countdown is defined as a sequence of numbers that starts from a certain number and decreases by one until it reaches zero. For example, a fireworks display might start with a countdown of 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0. This information can be verified through the Wikipedia article on \"Countdown (disambiguation)\".",
+        "summary": "The provided sequence is a countdown from 10 to 0, which is a common pattern seen in various countdowns, such as those used for New Year's Eve celebrations and rocket launches. This sequence follows a simple arithmetic pattern, where each number decreases by 1 in a sequential order. It is often used in countdowns for significant events, and its pattern is widely recognized. According to Wikipedia, this type of countdown is a well-known concept, and its sources can be found in various contexts, including celebrations and technological events.",
         "source": "https://en.wikipedia.org/wiki/Countdown_"
     }
 ]

@@ -55,6 +55,8 @@ module.exports = {
         border: "border 4s ease infinite",
         pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "fade-in": "fadeIn 0.5s ease-out",
+        gradient: "gradient 15s ease infinite",
+        twinkle: "twinkle 1.5s ease-in-out infinite",
       },
       keyframes: {
         float: {
@@ -78,6 +80,14 @@ module.exports = {
         fadeIn: {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
+        },
+        gradient: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        twinkle: {
+          "0%, 100%": { opacity: 1, transform: "scale(1)" },
+          "50%": { opacity: 0.5, transform: "scale(0.95)" },
         },
       },
     },

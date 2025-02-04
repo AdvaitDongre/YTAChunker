@@ -12,6 +12,8 @@ import {
   Share2,
   Upload,
   MessageCircle,
+  Github,
+  Linkedin,
 } from "lucide-react"
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
@@ -449,7 +451,7 @@ export default function Home() {
       timestamp: new Date().toLocaleString(),
     };
     
-    const updatedHistory = [newHistoryItem, ...history].slice(0, 10); // Keep only last 10 items
+    const updatedHistory = [newHistoryItem, ...history].slice(0, 5); // Changed from 10 to 5
     setHistory(updatedHistory);
     localStorage.setItem("urlHistory", JSON.stringify(updatedHistory));
   };
@@ -771,8 +773,41 @@ export default function Home() {
           </div>
         </main>
 
-        <footer className="bg-muted text-muted-foreground text-center py-4 mt-8 transition-colors duration-300">
-          <p>&copy; 2023 YTAChunker. All rights reserved.</p>
+        <footer className={`bg-muted text-muted-foreground py-6 mt-8 transition-colors duration-300`}>
+          <div className="container mx-auto text-center">
+            <div className="flex justify-center items-center space-x-4">
+              <p>&copy; 2023 YTAChunker. All rights reserved.</p>
+              <div className="flex space-x-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <a
+                      href="https://github.com/AdvaitDongre"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-primary transition-colors duration-300"
+                    >
+                      <Github className="w-6 h-6" />
+                    </a>
+                  </TooltipTrigger>
+                  <TooltipContent>GitHub</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <a
+                      href="https://www.linkedin.com/in/advait-dongre-259075257/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-primary transition-colors duration-300"
+                    >
+                      <Linkedin className="w-6 h-6" />
+                    </a>
+                  </TooltipTrigger>
+                  <TooltipContent>LinkedIn</TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
         </footer>
 
         {loading && (
@@ -810,7 +845,12 @@ export default function Home() {
           </div>
         )}
 
-        {showChat && <ChatUI onClose={() => setShowChat(false)} darkMode={darkMode} />}
+        {showChat && (
+          <ChatUI 
+            onClose={() => setShowChat(false)} 
+            darkMode={darkMode} 
+          />
+        )}
       </div>
     </TooltipProvider>
   )

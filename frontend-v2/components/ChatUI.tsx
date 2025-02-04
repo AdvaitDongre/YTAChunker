@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { X, Send } from "lucide-react"
+import { X, Send, RotateCcw } from "lucide-react"
 
 interface ChatUIProps {
   onClose: () => void
@@ -75,17 +75,31 @@ export function ChatUI({ onClose, darkMode }: ChatUIProps) {
     }
   }
 
+  const resetChat = () => {
+    setMessages([]);
+    localStorage.removeItem('chatHistory');
+  };
+
   return (
     <div className={`fixed bottom-20 right-4 z-50`}>
       <div className="w-96 h-[500px] rounded-lg shadow-lg flex flex-col bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700">
-        <div className="flex justify-between items-center p-4 border-b dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Chat Assistant</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            <X className="h-6 w-6" />
-          </button>
+        <div className="p-4 border-b flex justify-between items-center">
+          <h2 className="font-semibold">YTAChunker AI Chat</h2>
+          <div className="flex gap-2">
+            <button
+              onClick={resetChat}
+              className="p-1 hover:bg-muted rounded-full transition-colors"
+              title="Reset Chat"
+            >
+              <RotateCcw className="w-5 h-5" />
+            </button>
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 dark:bg-gray-900/50">
           {messages.map((message, index) => (

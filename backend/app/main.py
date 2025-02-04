@@ -20,7 +20,13 @@ from app.utils.folder_monitor import check_temp_folder_size, clean_temp_folder
 
 logging.basicConfig(level=logging.ERROR)
 
-app = FastAPI()
+app = FastAPI(
+    title="YTAChunker API",
+    description="Backend API for YTAChunker - Intelligent YouTube Video Processing",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 groq_client = GroqClient()
 
