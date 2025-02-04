@@ -16,7 +16,7 @@ import threading
 import subprocess
 from typing import Optional
 import yt_dlp  # Make sure to use yt-dlp instead of youtube-dl
-from utils.folder_monitor import check_temp_folder_size, clean_temp_folder
+from app.utils.folder_monitor import check_temp_folder_size, clean_temp_folder
 
 logging.basicConfig(level=logging.ERROR)
 
